@@ -4,11 +4,13 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import Todo from "./component/Todo";
 import { TodoProvider } from "./component/TodoProvider";
+import ErrorPage from "./component/error-page";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Todo />,
+    errorElement: <ErrorPage />,
   },
 ]);
 

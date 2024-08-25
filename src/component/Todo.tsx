@@ -6,7 +6,6 @@ function Todo() {
   return (
     <div>
       <SideBar />
-      <List />
     </div>
   );
 }
