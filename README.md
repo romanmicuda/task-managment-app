@@ -59,40 +59,10 @@ To create a production build, run:
 npm run build
 ```
 
-````
+```
 
 This will create an optimized build in the `build` directory.
 
-## Project Structure
-
-```
-task-management-app/
-├── public/
-│   └── index.html
-├── src/
-│   ├── components/
-│   │   ├── Task.tsx
-│   │   ├── TaskList.tsx
-│   │   ├── Project.tsx
-│   │   ├── ProjectList.tsx
-│   │   ├── Filter.tsx
-│   │   └── ...
-│   ├── context/
-│   │   └── TaskContext.tsx
-│   ├── hooks/
-│   │   └── useTaskManager.ts
-│   ├── utils/
-│   │   └── api.ts
-│   ├── App.tsx
-│   ├── index.tsx
-│   ├── styles/
-│   │   └── App.css
-│   └── ...
-├── .gitignore
-├── package.json
-├── tsconfig.json
-└── README.md
-```
 
 ## Key Dependencies
 
@@ -125,17 +95,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [Material-UI](https://mui.com/)
 - [react-beautiful-dnd](https://github.com/atlassian/react-beautiful-dnd)
 - [Firebase](https://firebase.google.com/)
-
----
-
-Feel free to modify the README to include any additional details specific to your project or to reflect any changes you make in the future.
-
 ```
-
-### Notes:
-1. **Firebase Configuration**: If you choose to implement user authentication, ensure to update the Firebase configuration section with actual instructions.
-2. **Contribution Guidelines**: You can add more detailed contribution guidelines if you're expecting external contributions.
-3. **License**: The example uses the MIT License, but you should choose the license that best fits your needs.
-
-You can customize this `README.md` further to fit any additional functionalities or requirements you may have for your project.
-````
