@@ -5,12 +5,19 @@ import "./index.css";
 import Todo from "./component/Todo";
 import { TodoProvider } from "./component/TodoProvider";
 import ErrorPage from "./component/error-page";
+import TodoList from "./component/TodoList";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Todo />,
     errorElement: <ErrorPage />,
+    children: [
+      {
+        path: "list/:nameParam",
+        element: <TodoList />,
+      },
+    ],
   },
 ]);
 
