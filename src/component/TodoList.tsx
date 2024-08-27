@@ -21,8 +21,8 @@ const TodoList: React.FC = () => {
     <div>
       <h1>Name of List: {groupList.name}</h1>
       <div>
-        {groupList.lists.map((list) => (
-          <TodoItem key={list.id} {...list} />
+        {groupList.lists.map((todo) => (
+          <TodoItem key={todo.id} {...todo} />
         ))}
       </div>
       <AddTodo nameParam={nameParam} />

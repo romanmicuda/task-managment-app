@@ -22,8 +22,8 @@ export const TodoListFilter: React.FC = () => {
   return (
     <>
       <div>
-        {todoLists.map((todoList) => (
-          <TodoItem key={todoList.id} {...todoList} />
+        {todoLists.map((todo) => (
+          <TodoItem key={todo.id} {...todo} />
         ))}
       </div>
       <AddTodo nameParam={"default"} />

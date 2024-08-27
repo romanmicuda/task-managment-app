@@ -1,19 +1,41 @@
 import React from "react";
 import { List, TodoType } from "../types";
+import { useTodo } from "./TodoProvider";
 
-const TodoItem: React.FC<TodoType> = (list) => {
+const TodoItem: React.FC<TodoType> = (todo) => {
+  const { groups, setGroups } = useTodo();
+  const handleToggle = () => {
+    setGroups((prevGroup) =>
+      prevGroup.map((group) => ({
+        ...group,
+        groupList: group.groupList.map((list) => ({
+          ...list,
+          lists: list.lists.map((item) =>
+            todo.id === item.id
+              ? {
+                  ...item,
+                  completed: !item.completed,
+                }
+              : item
+          ),
+        })),
+      }))
+    );
+  };
   return (
     <div>
-      <p>Description: {list.description}</p>
-      <p>State: {list.completed ? "Completed" : "Uncompleted"}</p>
-      {list.dueDate && (
-        <p>Due date: {list.dueDate.toISOString().split("T")[0]}</p>
+      <p>Description: {todo.description}</p>
+      <p onClick={() => handleToggle()}>
+        State: {todo.completed ? "Completed" : "Uncompleted"}
+      </p>
+      {todo.dueDate && (
+        <p>Due date: {todo.dueDate.toISOString().split("T")[0]}</p>
       )}
-      {list.remindme && (
-        <p>Remid me: {list.remindme.toISOString().split("T")[0]}</p>
+      {todo.remindme && (
+        <p>Remid me: {todo.remindme.toISOString().split("T")[0]}</p>
       )}
-      {list.repeat && <p>Repeat: {list.repeat}</p>}
-      {list.listType.length !== 0 && <p>ListType: {list.listType}</p>}
+      {todo.repeat && <p>Repeat: {todo.repeat}</p>}
+      {todo.listType.length !== 0 && <p>ListType: {todo.listType}</p>}
       <br />
     </div>
   );
