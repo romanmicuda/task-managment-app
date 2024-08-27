@@ -1,11 +1,11 @@
 export interface TodoContextType {
   groups: Group[];
-  setGroups: (groups: Group[]) => void;
+  setGroups: React.Dispatch<React.SetStateAction<Group[]>>;
 }
 
 export interface Group {
   name: string;
-  lists: List[];
+  groupList: List[];
 }
 
 export interface List {
