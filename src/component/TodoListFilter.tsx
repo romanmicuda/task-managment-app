@@ -1,6 +1,6 @@
 import React, { useDebugValue } from "react";
 import { useTodo } from "./TodoProvider";
-import Todo from "./Todo";
+import TodoItem from "./TodoItem";
 import { useParams } from "react-router-dom";
 import { AddTodo } from "./AddTodo";
 
@@ -23,7 +23,7 @@ export const TodoListFilter: React.FC = () => {
     <>
       <div>
         {todoLists.map((todoList) => (
-          <Todo key={todoList.id} {...todoList} />
+          <TodoItem key={todoList.id} {...todoList} />
         ))}
       </div>
       <AddTodo nameParam={"default"} />

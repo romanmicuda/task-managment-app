@@ -1,23 +1,47 @@
 import React, { useState } from "react";
-import { Group, TodoType } from "../types";
+import { Group, RepeatType, TodoType } from "../types";
 import { useTodo } from "./TodoProvider";
 
 export const AddTodo: React.FC<{ nameParam: string | undefined }> = ({
   nameParam,
 }) => {
   const [newTaskDescription, setNewTaskDescription] = useState("");
+  const [newDueDate, setNewDueDate] = useState<Date | undefined>(undefined);
+  const [newRemindme, seRemindme] = useState<Date | undefined>(undefined);
+  const [selectedRepeatType, setSelectedRepeatType] = useState<
+    RepeatType | undefined
+  >(undefined);
   const { groups, setGroups } = useTodo();
+  const repeatTypes = [
+    "Daily",
+    "WeekDays",
+    "Weekly",
+    "Monthly",
+    "Yearly",
+    "Customized",
+  ];
 
-  const handleAddTask = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && newTaskDescription.trim()) {
+  const handleSelectedRepeatType = (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    setSelectedRepeatType(e.target.value as RepeatType);
+  };
+
+  const formatDate = (date: Date | undefined): string => {
+    if (!date) return "";
+    return date.toISOString().split("T")[0];
+  };
+
+  const handleAddTask = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (newTaskDescription.trim()) {
       // Create a new task
       const newTask: TodoType = {
         id: Date.now(), // Use current timestamp as a unique ID
         description: newTaskDescription,
         completed: false,
-        dueDate: new Date(), // Set default due date (can be changed as needed)
-        remindme: new Date(), // Set default remind date (can be changed as needed)
-        repeat: "Daily", // Default repeat type
+        dueDate: newDueDate, // Set default due date (can be changed as needed)
+        remindme: newRemindme, // Set default remind date (can be changed as needed)
+        repeat: selectedRepeatType, // Default repeat type
         listType: [], // Default empty listType array
       };
 
@@ -55,8 +79,36 @@ export const AddTodo: React.FC<{ nameParam: string | undefined }> = ({
         placeholder="Add task"
         value={newTaskDescription}
         onChange={(e) => setNewTaskDescription(e.target.value)}
-        onKeyDown={handleAddTask}
       />
+      <label>
+        Due Date{" "}
+        <input
+          type="date"
+          value={formatDate(newDueDate)}
+          onChange={(e) =>
+            setNewDueDate(e.target.value ? new Date(e.target.value) : undefined)
+          }
+        />
+      </label>
+
+      <label>
+        Remid me{" "}
+        <input
+          type="date"
+          value={formatDate(newRemindme)}
+          onChange={(e) =>
+            seRemindme(e.target.value ? new Date(e.target.value) : undefined)
+          }
+        />
+      </label>
+
+      <select value={selectedRepeatType} onChange={handleSelectedRepeatType}>
+        <option value={undefined}>Default</option>
+        {repeatTypes.map((repeatType) => (
+          <option>{repeatType}</option>
+        ))}
+      </select>
+      <button onClick={(e) => handleAddTask(e)}>Add task</button>
     </div>
   );
 };

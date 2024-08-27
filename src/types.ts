@@ -17,9 +17,9 @@ export type TodoType = {
   id: number;
   description: string;
   completed: boolean;
-  dueDate: Date;
-  remindme: Date;
-  repeat: RepeatType;
+  dueDate: Date | undefined;
+  remindme: Date | undefined;
+  repeat: RepeatType | undefined;
   listType: ListType[];
 };
 

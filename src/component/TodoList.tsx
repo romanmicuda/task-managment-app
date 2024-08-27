@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useTodo } from "./TodoProvider";
 import { Group, TodoType } from "../types";
-import Todo from "./Todo";
+import TodoItem from "./TodoItem";
 import { AddTodo } from "./AddTodo";
 
 const TodoList: React.FC = () => {
@@ -22,7 +22,7 @@ const TodoList: React.FC = () => {
       <h1>Name of List: {groupList.name}</h1>
       <div>
         {groupList.lists.map((list) => (
-          <Todo key={list.id} {...list} />
+          <TodoItem key={list.id} {...list} />
         ))}
       </div>
       <AddTodo nameParam={nameParam} />
