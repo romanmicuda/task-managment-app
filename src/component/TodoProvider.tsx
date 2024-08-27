@@ -8,7 +8,10 @@ const TodoContext = createContext<TodoContextType | undefined>(undefined);
 export const TodoProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [groups, setGroups] = useState<Group[]>(mockData);
+  const [groups, setGroups] = useState<Group[]>([
+    ...mockData,
+    { name: "default", groupList: [{ name: "default", lists: [] }] },
+  ]);
   return (
     <TodoContext.Provider value={{ groups, setGroups }}>
       {children}

@@ -9,6 +9,12 @@ const SideBar = () => {
   const [newListName, setNewListName] = useState<string>("");
   const [newListGroupName, setNewListGroupName] = useState<string>("");
   const [newGroupName, setNewGroupName] = useState<string>("");
+  const [listTypes, setNewListType] = useState([
+    "My day",
+    "Important",
+    "Planned",
+    "Tasks",
+  ]);
 
   const handleExpandedGroup = (groupName: string) => {
     if (expandedGroup.has(groupName)) {
@@ -50,18 +56,11 @@ const SideBar = () => {
     <div>
       <nav>
         <ul>
-          <li>
-            <Link to={"/myday"}>My day</Link>
-          </li>
-          <li>
-            <Link to={"/important"}>Important</Link>
-          </li>
-          <li>
-            <Link to={"/planned"}>Planned</Link>
-          </li>
-          <li>
-            <Link to={"/tasks"}>Tasks</Link>
-          </li>
+          {listTypes.map((listType) => (
+            <li>
+              <Link to={`filter/${listType}`}>{listType}</Link>
+            </li>
+          ))}
         </ul>
       </nav>
       <nav>
