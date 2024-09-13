@@ -23,7 +23,7 @@ const TodoList: React.FC = () => {
         ...group,
         groupList: group.groupList.map((list) =>
           list.name === nameParam
-            ? { ...list, lists: list.lists.filter((todo) => todo.id != id) }
+            ? { ...list, lists: list.lists.filter((todo) => todo.id !== id) }
             : list
         ),
       }))

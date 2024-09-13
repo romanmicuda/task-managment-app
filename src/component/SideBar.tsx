@@ -54,6 +54,26 @@ const SideBar = () => {
     setNewListName("");
   };
 
+  const handleDeleteGroup = (groupName: string) => {
+    setGroups((prevGroups) =>
+      prevGroups.filter((group) => group.name !== groupName)
+    );
+  };
+
+  const handleDeleteGroupList = (groupName: string, groupListName: string) => {
+    setGroups((prevGroups) =>
+      prevGroups.map((group) =>
+        group.name === groupName
+          ? {
+              ...group,
+              groupList: group.groupList.filter(
+                (item) => item.name !== groupListName
+              ),
+            }
+          : group
+      )
+    );
+  };
   return (
     <div>
       <nav>
@@ -73,6 +93,9 @@ const SideBar = () => {
               onClick={() => handleExpandedGroup(group.name)}
             >
               {group.name}
+              <button onClick={() => handleDeleteGroup(group.name)}>
+                Delete
+              </button>
               <ul>
                 {expandedGroup.has(group.name) &&
                   group.groupList.map((groupList) => (
@@ -82,6 +105,13 @@ const SideBar = () => {
                         onClick={(e) => e.stopPropagation()}
                       >
                         {groupList.name}
+                        <button
+                          onClick={() =>
+                            handleDeleteGroupList(group.name, groupList.name)
+                          }
+                        >
+                          Delete
+                        </button>
                       </Link>
                     </li>
                   ))}
