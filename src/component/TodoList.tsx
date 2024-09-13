@@ -17,12 +17,30 @@ const TodoList: React.FC = () => {
     return <p>List not found</p>;
   }
 
+  const handleDeleteTodoItem = (id: number) => {
+    setGroups((prevGroups) =>
+      prevGroups.map((group) => ({
+        ...group,
+        groupList: group.groupList.map((list) =>
+          list.name === nameParam
+            ? { ...list, lists: list.lists.filter((todo) => todo.id != id) }
+            : list
+        ),
+      }))
+    );
+  };
+
   return (
     <div>
       <h1>Name of List: {groupList.name}</h1>
       <div>
         {groupList.lists.map((todo) => (
-          <TodoItem key={todo.id} {...todo} />
+          <div key={todo.id}>
+            <TodoItem {...todo} />
+            <button onClick={() => handleDeleteTodoItem(todo.id)}>
+              Delete
+            </button>
+          </div>
         ))}
       </div>
       <AddTodo nameParam={nameParam} />
