@@ -1,5 +1,7 @@
 import { Group, TodoContextType } from "./types";
 
+export const listTypes = ["My day", "Important", "Planned", "Tasks"];
+
 const mockData: Group[] = [
   {
     name: "Work",

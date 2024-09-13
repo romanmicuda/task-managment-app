@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { List, RepeatType, TodoType } from "../types";
+import { List, ListType, RepeatType, TodoType } from "../types";
 import { useTodo } from "./TodoProvider";
-import { setgroups } from "process";
+import { listTypes as availableListTypes } from "../data";
 
 const TodoItem: React.FC<TodoType> = (todo) => {
   const { groups, setGroups } = useTodo();
@@ -9,10 +9,11 @@ const TodoItem: React.FC<TodoType> = (todo) => {
     todo.description
   );
   const [newDueDate, setNewDueDate] = useState<Date | undefined>(todo.dueDate);
-  const [newRemindme, seRemindme] = useState<Date | undefined>(todo.remindme);
+  const [newRemindme, setRemindme] = useState<Date | undefined>(todo.remindme);
   const [selectedRepeatType, setSelectedRepeatType] = useState<
     RepeatType | undefined
   >(todo.repeat);
+  const [listType, setListType] = useState<ListType[]>(todo.listType);
   const repeatTypes = [
     "Daily",
     "WeekDays",
@@ -21,6 +22,7 @@ const TodoItem: React.FC<TodoType> = (todo) => {
     "Yearly",
     "Customized",
   ];
+  const listTypes = availableListTypes; // Assuming this is the correct listTypes source
 
   useEffect(() => {
     setGroups((prevGroups) =>
@@ -36,6 +38,7 @@ const TodoItem: React.FC<TodoType> = (todo) => {
                   dueDate: newDueDate,
                   remindme: newRemindme,
                   repeat: selectedRepeatType,
+                  listType: listType, // Ensure listType is updated here
                 }
               : item
           ),
@@ -47,9 +50,19 @@ const TodoItem: React.FC<TodoType> = (todo) => {
     newDueDate,
     newRemindme,
     selectedRepeatType,
+    listType,
     setGroups,
     todo.id,
   ]);
+
+  const handleCheckboxChange = (listTypeValue: ListType) => {
+    setListType((prevListType) => {
+      const isChecked = prevListType.includes(listTypeValue);
+      return isChecked
+        ? prevListType.filter((item) => item !== listTypeValue)
+        : [...prevListType, listTypeValue];
+    });
+  };
 
   const handleSelectedRepeatType = (
     e: React.ChangeEvent<HTMLSelectElement>
@@ -64,12 +77,7 @@ const TodoItem: React.FC<TodoType> = (todo) => {
         groupList: group.groupList.map((list) => ({
           ...list,
           lists: list.lists.map((item) =>
-            todo.id === item.id
-              ? {
-                  ...item,
-                  completed: !item.completed,
-                }
-              : item
+            todo.id === item.id ? { ...item, completed: !item.completed } : item
           ),
         })),
       }))
@@ -88,46 +96,60 @@ const TodoItem: React.FC<TodoType> = (todo) => {
         <input
           type="text"
           placeholder="Add task"
-          value={todo.description}
+          value={newTaskDescription}
           onChange={(e) => setNewTaskDescription(e.target.value)}
         />
       </p>
       <p onClick={() => handleToggle()}>
         State: {todo.completed ? "Completed" : "Uncompleted"}
       </p>
-
       <label>
         Due Date
         <input
           type="date"
-          value={formatDate(todo.dueDate)}
+          value={formatDate(newDueDate)}
           onChange={(e) =>
             setNewDueDate(e.target.value ? new Date(e.target.value) : undefined)
           }
         />
       </label>
-
       <label>
-        Remid me
+        Remind me
         <input
           type="date"
-          value={formatDate(todo.remindme)}
+          value={formatDate(newRemindme)}
           onChange={(e) =>
-            seRemindme(e.target.value ? new Date(e.target.value) : undefined)
+            setRemindme(e.target.value ? new Date(e.target.value) : undefined)
           }
         />
       </label>
-
       <label>
         Repeat:
-        <select value={todo.repeat} onChange={handleSelectedRepeatType}>
+        <select value={selectedRepeatType} onChange={handleSelectedRepeatType}>
           <option value={undefined}>Default</option>
           {repeatTypes.map((repeatType) => (
-            <option>{repeatType}</option>
+            <option key={repeatType} value={repeatType}>
+              {repeatType}
+            </option>
           ))}
         </select>
       </label>
-
+      <label>
+        List Type:
+        <div>
+          {listTypes.map((listTypeValue) => (
+            <div key={listTypeValue}>
+              <input
+                type="checkbox"
+                id={listTypeValue}
+                checked={listType.includes(listTypeValue as ListType)}
+                onChange={() => handleCheckboxChange(listTypeValue as ListType)}
+              />
+              <label htmlFor={listTypeValue}>{listTypeValue}</label>
+            </div>
+          ))}
+        </div>
+      </label>
       <br />
     </div>
   );
