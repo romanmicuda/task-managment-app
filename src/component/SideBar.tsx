@@ -31,6 +31,7 @@ const SideBar = () => {
   };
 
   const handleAddGroup = () => {
+    if (newGroupName.trim().length === 0) return;
     setGroups((prevGroups) => [
       ...prevGroups,
       { name: newGroupName, groupList: [] },
@@ -38,6 +39,7 @@ const SideBar = () => {
   };
 
   const handleAddList = () => {
+    if (newListName.trim().length === 0) return;
     setGroups((prevGroup) => [
       ...prevGroup.map((group) =>
         group.name === newListGroupName
@@ -89,6 +91,7 @@ const SideBar = () => {
         <div>
           <input
             type="text"
+            required
             value={newListName}
             onChange={(e) => setNewListName(e.target.value)}
             placeholder="Enter a new list"

@@ -33,22 +33,19 @@ export const AddTodo: React.FC<{ nameParam: string | undefined }> = ({
   };
 
   const handleAddTask = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (newTaskDescription.trim()) {
-      // Create a new task
+    if (newTaskDescription.trim().length !== 0) {
       const newTask: TodoType = {
-        id: Date.now(), // Use current timestamp as a unique ID
+        id: Date.now(),
         description: newTaskDescription,
         completed: false,
-        dueDate: newDueDate, // Set default due date (can be changed as needed)
-        remindme: newRemindme, // Set default remind date (can be changed as needed)
-        repeat: selectedRepeatType, // Default repeat type
-        listType: [], // Default empty listType array
+        dueDate: newDueDate,
+        remindme: newRemindme,
+        repeat: selectedRepeatType,
+        listType: [],
       };
 
-      // Update groups state with the new task
       setGroups((prevGroups: Group[]) =>
         prevGroups.map((group) => {
-          // If group contains the target list, update it
           if (group.groupList.some((list) => list.name === nameParam)) {
             return {
               ...group,
@@ -56,7 +53,7 @@ export const AddTodo: React.FC<{ nameParam: string | undefined }> = ({
                 if (list.name === nameParam) {
                   return {
                     ...list,
-                    lists: [...list.lists, newTask], // Add new task to the list
+                    lists: [...list.lists, newTask],
                   };
                 }
                 return list;
@@ -66,8 +63,6 @@ export const AddTodo: React.FC<{ nameParam: string | undefined }> = ({
           return group;
         })
       );
-
-      // Clear the input field after adding the task
       setNewTaskDescription("");
     }
   };
@@ -81,7 +76,7 @@ export const AddTodo: React.FC<{ nameParam: string | undefined }> = ({
         onChange={(e) => setNewTaskDescription(e.target.value)}
       />
       <label>
-        Due Date{" "}
+        Due Date
         <input
           type="date"
           value={formatDate(newDueDate)}
@@ -92,7 +87,7 @@ export const AddTodo: React.FC<{ nameParam: string | undefined }> = ({
       </label>
 
       <label>
-        Remid me{" "}
+        Remid me
         <input
           type="date"
           value={formatDate(newRemindme)}
