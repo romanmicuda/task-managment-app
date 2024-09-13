@@ -77,7 +77,10 @@ const SideBar = () => {
                 {expandedGroup.has(group.name) &&
                   group.groupList.map((groupList) => (
                     <li>
-                      <Link to={`list/${groupList.name}`}>
+                      <Link
+                        to={`list/${groupList.name}`}
+                        onClick={(e) => e.stopPropagation()}
+                      >
                         {groupList.name}
                       </Link>
                     </li>
