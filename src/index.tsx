@@ -7,6 +7,7 @@ import { TodoProvider } from "./component/TodoProvider";
 import ErrorPage from "./component/error-page";
 import TodoList from "./component/TodoList";
 import { TodoListFilter } from "./component/TodoListFilter";
+import { TodoListSearch } from "./component/TodoListSearch";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
       {
         path: "filter/:filterListType",
         element: <TodoListFilter />,
+      },
+      {
+        path: "search/:searchTerm",
+        element: <TodoListSearch />,
       },
     ],
   },
