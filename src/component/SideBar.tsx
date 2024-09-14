@@ -87,37 +87,41 @@ const SideBar = () => {
       </nav>
       <nav>
         <ul>
-          {groups.map((group) => (
-            <li
-              key={group.name}
-              onClick={() => handleExpandedGroup(group.name)}
-            >
-              {group.name}
-              <button onClick={() => handleDeleteGroup(group.name)}>
-                Delete
-              </button>
-              <ul>
-                {expandedGroup.has(group.name) &&
-                  group.groupList.map((groupList) => (
-                    <li>
-                      <Link
-                        to={`list/${groupList.name}`}
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        {groupList.name}
-                        <button
-                          onClick={() =>
-                            handleDeleteGroupList(group.name, groupList.name)
-                          }
+          {groups.map((group) =>
+            group.name !== "default" ? (
+              <li
+                key={group.name}
+                onClick={() => handleExpandedGroup(group.name)}
+              >
+                {group.name}
+                <button onClick={() => handleDeleteGroup(group.name)}>
+                  Delete
+                </button>
+                <ul>
+                  {expandedGroup.has(group.name) &&
+                    group.groupList.map((groupList) => (
+                      <li>
+                        <Link
+                          to={`list/${groupList.name}`}
+                          onClick={(e) => e.stopPropagation()}
                         >
-                          Delete
-                        </button>
-                      </Link>
-                    </li>
-                  ))}
-              </ul>
-            </li>
-          ))}
+                          {groupList.name}
+                          <button
+                            onClick={() =>
+                              handleDeleteGroupList(group.name, groupList.name)
+                            }
+                          >
+                            Delete
+                          </button>
+                        </Link>
+                      </li>
+                    ))}
+                </ul>
+              </li>
+            ) : (
+              <></>
+            )
+          )}
         </ul>
       </nav>
       <div>

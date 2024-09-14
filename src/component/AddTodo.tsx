@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Group, RepeatType, TodoType } from "../types";
+import { Group, ListType, RepeatType, TodoType } from "../types";
 import { useTodo } from "./TodoProvider";
 
 export const AddTodo: React.FC<{ nameParam: string | undefined }> = ({
@@ -56,6 +56,30 @@ export const AddTodo: React.FC<{ nameParam: string | undefined }> = ({
         listType: [],
       };
 
+      if (nameParam == "My day" || "Important" || "Planned" || "Tasks") {
+        setGroups((prevGroups: Group[]) =>
+          prevGroups.map((group) => {
+            if (group.groupList.some((list) => list.name === "default")) {
+              return {
+                ...group,
+                groupList: group.groupList.map((list) => {
+                  if (list.name === "default") {
+                    return {
+                      ...list,
+                      lists: [
+                        ...list.lists,
+                        { ...newTask, listType: [nameParam as ListType] },
+                      ],
+                    };
+                  }
+                  return list;
+                }),
+              };
+            }
+            return group;
+          })
+        );
+      }
       setGroups((prevGroups: Group[]) =>
         prevGroups.map((group) => {
           if (group.groupList.some((list) => list.name === nameParam)) {
@@ -75,6 +99,7 @@ export const AddTodo: React.FC<{ nameParam: string | undefined }> = ({
           return group;
         })
       );
+
       setNewTaskDescription("");
     }
   };

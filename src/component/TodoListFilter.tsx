@@ -26,7 +26,7 @@ export const TodoListFilter: React.FC = () => {
           <TodoItem key={todo.id} {...todo} />
         ))}
       </div>
-      <AddTodo nameParam={"default"} />
+      <AddTodo nameParam={filterListType} />
     </>
   );
 };
