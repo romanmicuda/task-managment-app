@@ -2,6 +2,7 @@ import React, { useDebugValue, useEffect, useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 import { useTodo } from "./TodoProvider";
 import { Group } from "../types";
+import CloseIcon from "@mui/icons-material/Close";
 
 const SideBar = () => {
   const { groups, setGroups } = useTodo();
@@ -105,7 +106,9 @@ const SideBar = () => {
                     className="px-5"
                     onClick={() => handleDeleteGroup(group.name)}
                   >
-                    Delete
+                    <span className="material-icons">
+                      <CloseIcon />
+                    </span>
                   </button>
                   <ul>
                     {expandedGroup.has(group.name) &&
@@ -125,7 +128,7 @@ const SideBar = () => {
                                 )
                               }
                             >
-                              Delete
+                              <CloseIcon />
                             </button>
                           </Link>
                         </li>
