@@ -36,6 +36,7 @@ const SideBar = () => {
       ...prevGroups,
       { name: newGroupName, groupList: [] },
     ]);
+    setNewGroupName("");
   };
 
   const handleAddList = () => {
@@ -75,87 +76,116 @@ const SideBar = () => {
     );
   };
   return (
-    <div>
-      <nav>
-        <ul>
-          {listTypes.map((listType) => (
-            <li>
-              <Link to={`filter/${listType}`}>{listType}</Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
-      <nav>
-        <ul>
-          {groups.map((group) =>
-            group.name !== "default" ? (
-              <li
-                key={group.name}
-                onClick={() => handleExpandedGroup(group.name)}
-              >
-                {group.name}
-                <button onClick={() => handleDeleteGroup(group.name)}>
-                  Delete
-                </button>
-                <ul>
-                  {expandedGroup.has(group.name) &&
-                    group.groupList.map((groupList) => (
-                      <li>
-                        <Link
-                          to={`list/${groupList.name}`}
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          {groupList.name}
-                          <button
-                            onClick={() =>
-                              handleDeleteGroupList(group.name, groupList.name)
-                            }
-                          >
-                            Delete
-                          </button>
-                        </Link>
-                      </li>
-                    ))}
-                </ul>
+    <div className="flex mx-5">
+      <div className="mr-5">
+        <nav>
+          <ul>
+            {listTypes.map((listType) => (
+              <li className="mb-2 text-white">
+                <Link
+                  className="block py-2 px-4 bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-200"
+                  to={`filter/${listType}`}
+                >
+                  {listType}
+                </Link>
               </li>
-            ) : (
-              <></>
-            )
-          )}
-        </ul>
-      </nav>
-      <div>
-        <div>
-          <input
-            type="text"
-            required
-            value={newListName}
-            onChange={(e) => setNewListName(e.target.value)}
-            placeholder="Enter a new list"
-          />
-          <select
-            value={newListGroupName}
-            onChange={(e) => setNewListGroupName(e.target.value)}
-          >
-            <option value="" disabled>
-              Default
-            </option>
-            {groups.map((group) => (
-              <option value={group.name} key={group.name}>
-                {group.name}
-              </option>
             ))}
-          </select>
-          <button onClick={() => handleAddList()}>Add List</button>
-        </div>
-        <div>
-          <input
-            type="text"
-            value={newGroupName}
-            onChange={(e) => setNewGroupName(e.target.value)}
-            placeholder="Enter a new group"
-          />
-          <button onClick={handleAddGroup}>Add group</button>
+          </ul>
+
+          <ul>
+            {groups.map((group) =>
+              group.name !== "default" ? (
+                <li
+                  key={group.name}
+                  onClick={() => handleExpandedGroup(group.name)}
+                  className="mb-2 block py-2 px-4 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-200"
+                >
+                  {group.name}
+                  <button
+                    className="px-5"
+                    onClick={() => handleDeleteGroup(group.name)}
+                  >
+                    Delete
+                  </button>
+                  <ul>
+                    {expandedGroup.has(group.name) &&
+                      group.groupList.map((groupList) => (
+                        <li className="pl-5 hover:font-medium transition duration-500">
+                          <Link
+                            to={`list/${groupList.name}`}
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            {groupList.name}
+                            <button
+                              className="px-5"
+                              onClick={() =>
+                                handleDeleteGroupList(
+                                  group.name,
+                                  groupList.name
+                                )
+                              }
+                            >
+                              Delete
+                            </button>
+                          </Link>
+                        </li>
+                      ))}
+                  </ul>
+                </li>
+              ) : (
+                <></>
+              )
+            )}
+          </ul>
+        </nav>
+        <div className="space-y-4 p-4 bg-gray-50 rounded-lg shadow-md">
+          <div className="flex flex-col space-y-4">
+            <div className="flex flex-col space-y-2">
+              <input
+                type="text"
+                required
+                value={newListName}
+                onChange={(e) => setNewListName(e.target.value)}
+                placeholder="Enter a new list"
+                className="p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              <select
+                value={newListGroupName}
+                onChange={(e) => setNewListGroupName(e.target.value)}
+                className="p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="" disabled>
+                  Default
+                </option>
+                {groups.map((group) => (
+                  <option value={group.name} key={group.name}>
+                    {group.name}
+                  </option>
+                ))}
+              </select>
+              <button
+                onClick={() => handleAddList()}
+                className="py-2 px-4 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                Add List
+              </button>
+            </div>
+            <div className="flex flex-col space-y-2">
+              <input
+                type="text"
+                value={newGroupName}
+                onChange={(e) => setNewGroupName(e.target.value)}
+                placeholder="Enter a new group"
+                className="p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              <button
+                onClick={handleAddGroup}
+                className="py-2 px-4 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                Add Group
+              </button>
+            </div>
+          </div>
         </div>
       </div>
       <Outlet />

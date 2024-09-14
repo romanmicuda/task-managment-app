@@ -19,9 +19,11 @@ export const TodoListSearch: React.FC = () => {
 
   return (
     <>
-      <div>
+      <div className="p-6 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 rounded-lg shadow-md w-full">
         {todoLists.map((todo) => (
-          <TodoItem key={todo.id} {...todo} />
+          <div key={todo.id} className="p-4 bg-white rounded-lg shadow-md mt-5">
+            <TodoItem {...todo} />
+          </div>
         ))}
       </div>
     </>

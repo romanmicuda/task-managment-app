@@ -37,7 +37,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <TodoProvider>
-      <RouterProvider router={router} />
+      <div className="font-sans font-light">
+        <RouterProvider router={router} />
+      </div>
     </TodoProvider>
   </React.StrictMode>
 );

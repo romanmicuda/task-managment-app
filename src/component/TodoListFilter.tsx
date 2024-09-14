@@ -22,7 +22,7 @@ export const TodoListFilter: React.FC = () => {
 
   return (
     <div className="p-6 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 rounded-lg shadow-md">
-      <h1 className="text-3xl mb-4">{filterListType}</h1>
+      <h1 className="text-3xl mb-4 text-white">{filterListType}</h1>
       <div>
         {todoLists.map((todo) => (
           <div className="p-4 bg-white rounded-lg shadow-md my-5">

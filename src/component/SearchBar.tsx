@@ -12,8 +12,9 @@ function SearchBar() {
   }, [searchTerm, navigate]);
 
   return (
-    <div>
+    <div className="p-4 bg-white shadow-lg rounded-lg mb-6">
       <input
+        className="w-full p-2 border border-blue-300 rounded-lg focus:outline-none focus:border-blue-500 transition"
         type="text"
         value={searchTerm}
         placeholder="Search..."

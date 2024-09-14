@@ -105,42 +105,65 @@ export const AddTodo: React.FC<{ nameParam: string | undefined }> = ({
   };
 
   return (
-    <div>
-      <input
-        type="text"
-        placeholder="Add task"
-        value={newTaskDescription}
-        onChange={(e) => setNewTaskDescription(e.target.value)}
-      />
-      <label>
-        Due Date
+    <div className="p-4 space-y-4 bg-white rounded-xl mt-5">
+      <div className="flex flex-col space-y-2">
         <input
-          type="datetime-local"
-          value={formatDateTime(newDueDate)}
-          onChange={(e) =>
-            setNewDueDate(e.target.value ? new Date(e.target.value) : undefined)
-          }
+          type="text"
+          placeholder="Add task"
+          value={newTaskDescription}
+          onChange={(e) => setNewTaskDescription(e.target.value)}
+          className="p-2 border w-full border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-      </label>
 
-      <label>
-        Remid me
-        <input
-          type="datetime-local"
-          value={formatDateTime(newRemindme)}
-          onChange={(e) =>
-            seRemindme(e.target.value ? new Date(e.target.value) : undefined)
-          }
-        />
-      </label>
+        <div className="flex justify-around">
+          <label className="block text-sm text-gray-700">
+            Due Date
+            <input
+              type="datetime-local"
+              value={formatDateTime(newDueDate)}
+              onChange={(e) =>
+                setNewDueDate(
+                  e.target.value ? new Date(e.target.value) : undefined
+                )
+              }
+              className="mt-1 p-2  ml-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </label>
 
-      <select value={selectedRepeatType} onChange={handleSelectedRepeatType}>
-        <option value={undefined}>Default</option>
-        {repeatTypes.map((repeatType) => (
-          <option>{repeatType}</option>
-        ))}
-      </select>
-      <button onClick={(e) => handleAddTask(e)}>Add task</button>
+          <label className="block text-sm text-gray-700">
+            Remind Me
+            <input
+              type="datetime-local"
+              value={formatDateTime(newRemindme)}
+              onChange={(e) =>
+                seRemindme(
+                  e.target.value ? new Date(e.target.value) : undefined
+                )
+              }
+              className="mt-1 p-2 ml-4  border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </label>
+          <label>
+            Repeat
+            <select
+              value={selectedRepeatType}
+              onChange={handleSelectedRepeatType}
+              className="p-2 ml-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value={undefined}>Default</option>
+              {repeatTypes.map((repeatType) => (
+                <option key={repeatType}>{repeatType}</option>
+              ))}
+            </select>
+          </label>
+        </div>
+        <button
+          onClick={(e) => handleAddTask(e)}
+          className="px-4 py-2 bg-blue-700 rounded-lg hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          Add Task
+        </button>
+      </div>
     </div>
   );
 };

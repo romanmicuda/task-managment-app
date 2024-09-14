@@ -50,7 +50,7 @@ const TodoItem: React.FC<TodoType> = (todo) => {
                   dueDate: newDueDate,
                   remindme: newRemindme,
                   repeat: selectedRepeatType,
-                  listType: listType, // Ensure listType is updated here
+                  listType: listType,
                 }
               : item
           ),
@@ -102,67 +102,102 @@ const TodoItem: React.FC<TodoType> = (todo) => {
   };
 
   return (
-    <div className="flex">
-      <p>
-        Description:
-        <input
-          type="text"
-          placeholder="Add task"
-          value={newTaskDescription}
-          onChange={(e) => setNewTaskDescription(e.target.value)}
-        />
-      </p>
-      <p onClick={() => handleToggle()}>
-        State: {todo.completed ? "Completed" : "Uncompleted"}
-      </p>
-      <label>
-        Due Date
-        <input
-          type="datetime-local"
-          value={formatDateTime(newDueDate)}
-          onChange={(e) =>
-            setNewDueDate(e.target.value ? new Date(e.target.value) : undefined)
-          }
-        />
-      </label>
-      <label>
-        Remind me
-        <input
-          type="datetime-local"
-          value={formatDateTime(newRemindme)}
-          onChange={(e) =>
-            setRemindme(e.target.value ? new Date(e.target.value) : undefined)
-          }
-        />
-      </label>
-      <label>
-        Repeat:
-        <select value={selectedRepeatType} onChange={handleSelectedRepeatType}>
-          <option value={undefined}>Default</option>
-          {repeatTypes.map((repeatType) => (
-            <option key={repeatType} value={repeatType}>
-              {repeatType}
-            </option>
-          ))}
-        </select>
-      </label>
-      <label>
-        List Type:
-        <div>
-          {listTypes.map((listTypeValue) => (
-            <div key={listTypeValue}>
-              <input
-                type="checkbox"
-                id={listTypeValue}
-                checked={listType.includes(listTypeValue as ListType)}
-                onChange={() => handleCheckboxChange(listTypeValue as ListType)}
-              />
-              <label htmlFor={listTypeValue}>{listTypeValue}</label>
-            </div>
-          ))}
-        </div>
-      </label>
-      <br />
+    <div className="flex flex-wrap items-center justify-between p-4 bg-blue-50 rounded-lg shadow-md hover:bg-blue-100 transition duration-200">
+      <div className="flex-1 min-w-0 mr-4">
+        <label className="block text-sm text-gray-700">
+          Description
+          <input
+            type="text"
+            placeholder="Add task"
+            value={newTaskDescription}
+            onChange={(e) => setNewTaskDescription(e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </label>
+      </div>
+
+      <div className="flex items-center mr-4">
+        <p className="text-sm text-gray-700" onClick={() => handleToggle()}>
+          <label className="block text-sm text-gray-700">
+            State <div>{todo.completed ? "Completed" : "Uncompleted"}</div>
+          </label>
+        </p>
+      </div>
+
+      <div className="flex-1 min-w-0 mr-4">
+        <label className="block text-sm text-gray-700">
+          Due Date
+          <input
+            type="datetime-local"
+            value={formatDateTime(newDueDate)}
+            onChange={(e) =>
+              setNewDueDate(
+                e.target.value ? new Date(e.target.value) : undefined
+              )
+            }
+            className="mt-1 w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </label>
+      </div>
+
+      <div className="flex-1 min-w-0 mr-4">
+        <label className="block text-sm text-gray-700">
+          Remind Me
+          <input
+            type="datetime-local"
+            value={formatDateTime(newRemindme)}
+            onChange={(e) =>
+              setRemindme(e.target.value ? new Date(e.target.value) : undefined)
+            }
+            className="mt-1 w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </label>
+      </div>
+
+      <div className="flex-1 min-w-0 mr-4">
+        <label className="block text-sm text-gray-700">
+          Repeat
+          <select
+            value={selectedRepeatType}
+            onChange={handleSelectedRepeatType}
+            className="mt-1 w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value={undefined}>Default</option>
+            {repeatTypes.map((repeatType) => (
+              <option key={repeatType} value={repeatType}>
+                {repeatType}
+              </option>
+            ))}
+          </select>
+        </label>
+      </div>
+
+      <div className="flex-1 min-w-0">
+        <label className="block text-sm text-gray-700">
+          List Type
+          <div className="mt-1 space-y-2">
+            {listTypes.map((listTypeValue) => (
+              <div key={listTypeValue} className="flex items-center">
+                <input
+                  type="checkbox"
+                  id={listTypeValue}
+                  checked={listType.includes(listTypeValue as ListType)}
+                  onChange={() =>
+                    handleCheckboxChange(listTypeValue as ListType)
+                  }
+                  className="mr-2 w-6 h-6 accent-blue-500"
+                />
+                <label
+                  htmlFor={listTypeValue}
+                  className="text-sm text-gray-700"
+                >
+                  {listTypeValue}
+                </label>
+              </div>
+            ))}
+          </div>
+        </label>
+      </div>
     </div>
   );
 };
