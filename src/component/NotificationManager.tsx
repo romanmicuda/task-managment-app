@@ -1,31 +1,38 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useTodo } from "./TodoProvider";
 import { getDueDateReminders } from "../utils/reminderUtils";
 import { playSound } from "../utils/playSound";
 
 const soundUrl = "/sounds/sound.mp3";
+const CHECK_INTERVAL = 3000;
 
 const NotificationManager: React.FC = () => {
   const { groups } = useTodo();
+  const notifiedTasks = useRef<Set<number>>(new Set());
+
   useEffect(() => {
-    const { dueSoon, overdue } = getDueDateReminders(groups);
+    const checkReminders = () => {
+      const { remindSoon } = getDueDateReminders(groups, 1);
 
-    const playReminders = () => {
-      overdue.forEach((todo) => {
-        if (todo.remindme) {
-          playSound(soundUrl);
-        }
-      });
+      const now = new Date();
 
-      dueSoon.forEach((todo) => {
+      remindSoon.forEach((todo) => {
         if (todo.remindme) {
-          playSound(soundUrl);
+          const remindmeDate = new Date(todo.remindme);
+          const timeDiff = Math.abs(remindmeDate.getTime() - now.getTime());
+
+          if (timeDiff <= 5000 && !notifiedTasks.current.has(todo.id)) {
+            playSound(soundUrl);
+            notifiedTasks.current.add(todo.id);
+          }
         }
       });
     };
 
-    playReminders();
-  }, [useTodo().groups]);
+    const intervalId = setInterval(checkReminders, CHECK_INTERVAL);
+
+    return () => clearInterval(intervalId);
+  }, [groups]);
 
   return null;
 };
