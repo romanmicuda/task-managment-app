@@ -32,6 +32,18 @@ export const AddTodo: React.FC<{ nameParam: string | undefined }> = ({
     return date.toISOString().split("T")[0];
   };
 
+  function formatDateTime(date: Date | undefined) {
+    if (!date) return "";
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // months are 0-based
+    const day = String(date.getDate()).padStart(2, "0");
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  }
+
   const handleAddTask = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (newTaskDescription.trim().length !== 0) {
       const newTask: TodoType = {
@@ -78,8 +90,8 @@ export const AddTodo: React.FC<{ nameParam: string | undefined }> = ({
       <label>
         Due Date
         <input
-          type="date"
-          value={formatDate(newDueDate)}
+          type="datetime-local"
+          value={formatDateTime(newDueDate)}
           onChange={(e) =>
             setNewDueDate(e.target.value ? new Date(e.target.value) : undefined)
           }
@@ -89,8 +101,8 @@ export const AddTodo: React.FC<{ nameParam: string | undefined }> = ({
       <label>
         Remid me
         <input
-          type="date"
-          value={formatDate(newRemindme)}
+          type="datetime-local"
+          value={formatDateTime(newRemindme)}
           onChange={(e) =>
             seRemindme(e.target.value ? new Date(e.target.value) : undefined)
           }

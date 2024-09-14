@@ -24,6 +24,18 @@ const TodoItem: React.FC<TodoType> = (todo) => {
   ];
   const listTypes = availableListTypes; // Assuming this is the correct listTypes source
 
+  function formatDateTime(date: Date | undefined) {
+    if (!date) return "";
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // months are 0-based
+    const day = String(date.getDate()).padStart(2, "0");
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  }
+
   useEffect(() => {
     setGroups((prevGroups) =>
       prevGroups.map((group) => ({
@@ -106,8 +118,8 @@ const TodoItem: React.FC<TodoType> = (todo) => {
       <label>
         Due Date
         <input
-          type="date"
-          value={formatDate(newDueDate)}
+          type="datetime-local"
+          value={formatDateTime(newDueDate)}
           onChange={(e) =>
             setNewDueDate(e.target.value ? new Date(e.target.value) : undefined)
           }
@@ -116,8 +128,8 @@ const TodoItem: React.FC<TodoType> = (todo) => {
       <label>
         Remind me
         <input
-          type="date"
-          value={formatDate(newRemindme)}
+          type="datetime-local"
+          value={formatDateTime(newRemindme)}
           onChange={(e) =>
             setRemindme(e.target.value ? new Date(e.target.value) : undefined)
           }
