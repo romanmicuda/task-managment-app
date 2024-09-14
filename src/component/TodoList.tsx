@@ -4,6 +4,7 @@ import { useTodo } from "./TodoProvider";
 import { Group, TodoType } from "../types";
 import TodoItem from "./TodoItem";
 import { AddTodo } from "./AddTodo";
+import DeleteButtonTodo from "./DeleteButtonTodo";
 
 const TodoList: React.FC = () => {
   const { nameParam } = useParams<{ nameParam: string }>();
@@ -14,32 +15,19 @@ const TodoList: React.FC = () => {
     .find((list) => list.name === nameParam);
 
   if (!groupList) {
-    return <p>List not found</p>;
+    return <p className="text-center text-red-500">List not found</p>;
   }
 
-  const handleDeleteTodoItem = (id: number) => {
-    setGroups((prevGroups) =>
-      prevGroups.map((group) => ({
-        ...group,
-        groupList: group.groupList.map((list) =>
-          list.name === nameParam
-            ? { ...list, lists: list.lists.filter((todo) => todo.id !== id) }
-            : list
-        ),
-      }))
-    );
-  };
-
   return (
-    <div>
-      <h1>Name of List: {groupList.name}</h1>
-      <div>
+    <div className="p-6 bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 rounded-lg shadow-md">
+      <h1 className="text-3xl text-white mb-4">{groupList.name}</h1>
+      <div className="space-y-4">
         {groupList.lists.map((todo) => (
-          <div key={todo.id}>
+          <div key={todo.id} className="p-4 bg-white rounded-lg shadow-md">
             <TodoItem {...todo} />
-            <button onClick={() => handleDeleteTodoItem(todo.id)}>
-              Delete
-            </button>
+            <div className="mt-4 flex justify-end">
+              <DeleteButtonTodo todoId={todo.id} nameParam={nameParam} />
+            </div>
           </div>
         ))}
       </div>
