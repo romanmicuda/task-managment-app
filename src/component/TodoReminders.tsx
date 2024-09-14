@@ -14,6 +14,12 @@ const TodoReminders: React.FC = () => {
     setReminders({ remindSoon });
   }, [groups]);
 
+  const handleDeleteReminders = (todoId: number) => {
+    setReminders((prevReminders) => ({
+      remindSoon: prevReminders.remindSoon.filter((todo) => todo.id != todoId),
+    }));
+  };
+
   return (
     <div>
       {reminders.remindSoon.length > 0 && (
@@ -26,6 +32,9 @@ const TodoReminders: React.FC = () => {
                   {todo.description} (Alert: {todo.remindme?.toDateString()}{" "}
                   {todo.remindme?.toLocaleTimeString()})
                 </li>
+                <button onClick={() => handleDeleteReminders(todo.id)}>
+                  Delete
+                </button>
               </div>
             ))}
           </ul>
